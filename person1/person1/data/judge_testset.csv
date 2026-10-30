@@ -1,0 +1,184 @@
+id,category,language,query,fast_routed,description
+1,GREETING,English,hello,True,English Hello
+2,GREETING,English,good morning,True,English Morning
+3,GREETING,English,who are you,True,English Identity
+4,GREETING,Tamil,வணக்கம்,True,Tamil Vanakkam
+5,GREETING,Tanglish,vanakkam,True,Tanglish Vanakkam
+6,GREETING,Tanglish,epdi iruka,True,Tanglish How are you
+7,GREETING,Hindi,नमस्ते,True,Hindi Namaste
+8,GREETING,Hindi,namaste,True,Hinglish Namaste
+9,GREETING,Hindi,kaise ho,True,Hinglish How are you
+10,GREETING,Telugu,నమస్కారం,True,Telugu Namaskaram
+11,GREETING,Telugu,ela unnav,True,Telugish How are you
+12,GREETING,Malayalam,നമസ്കാരം,True,Malayalam Namaskaram
+13,GREETING,Malayalam,sukhamano,True,Manglish How are you
+14,GREETING,Kannada,ನಮಸ್ಕಾರ,True,Kannada Namaskara
+15,GREETING,Kannada,hegiddira,True,Kanglish How are you
+16,TIME,English,what time is it,True,English time
+17,TIME,English,current time,True,English current time
+18,TIME,Tamil,நேரம் என்ன,True,Tamil time
+19,TIME,Tanglish,enna time,True,Tanglish enna time
+20,TIME,Tanglish,time sollu,True,Tanglish time sollu
+21,TIME,Hindi,समय क्या है,True,Hindi samay kya hai
+22,TIME,Hindi,time kya hai,True,Hinglish time kya hai
+23,TIME,Telugu,సమయం ఎంత,True,Telugu samayam entha
+24,TIME,Telugu,time entha,True,Telugish time entha
+25,TIME,Malayalam,സമയം എത്ര,True,Malayalam samayam ethra
+26,TIME,Malayalam,samayam ethra aayi,True,Manglish samayam ethra
+27,TIME,Kannada,ಸಮಯ ಎಷ್ಟು,True,Kannada samaya eshtu
+28,TIME,Kannada,samaya eshtu,True,Kanglish samaya eshtu
+29,DATE,English,what is today's date,True,English today date
+30,DATE,Tamil,இன்றைய தேதி என்ன,True,Tamil today date
+31,DATE,Tanglish,innaiki date enna,True,Tanglish today date
+32,DATE,Hindi,आज की तारीख क्या है,True,Hindi today date
+33,DATE,Hindi,aaj ki date kya hai,True,Hinglish today date
+34,DATE,Telugu,ఈ రోజు తేదీ ఎంత,True,Telugu today date
+35,DATE,Telugu,ee roju date enti,True,Telugish today date
+36,DATE,Malayalam,ഇന്നത്തെ തീയതി എന്താണ്,True,Malayalam today date
+37,DATE,Malayalam,innu ethra theeyathi,True,Manglish today date
+38,DATE,Kannada,ಇವತ್ತಿನ ದಿನಾಂಕ ಏನು,True,Kannada today date
+39,DATE,Kannada,ivathu date enu,True,Kanglish today date
+40,DATE,English,what is tomorrow's date,True,English tomorrow
+41,DATE,Tanglish,nalaiku enna date,True,Tanglish tomorrow
+42,DATE,Hindi,kal ki date kya hai,True,Hinglish tomorrow
+43,DATE,Telugu,repu date enti,True,Telugish tomorrow
+44,DATE,English,what was yesterday's date,True,English yesterday
+45,DATE,Tanglish,nethu enna date,True,Tanglish yesterday
+46,DATE,Telugu,ninna date enti,True,Telugish yesterday
+47,BATTERY,English,check battery,True,English battery
+48,BATTERY,English,battery status,True,English battery status
+49,BATTERY,Tamil,பேட்டரி நிலை என்ன,True,Tamil battery
+50,BATTERY,Tanglish,battery evlo,True,Tanglish battery evlo
+51,BATTERY,Tanglish,charge evlo iruku,True,Tanglish charge
+52,BATTERY,Hindi,बैटरी कितनी है,True,Hindi battery
+53,BATTERY,Hindi,battery kitna hai,True,Hinglish battery
+54,BATTERY,Telugu,బ్యాటరీ ఎంత ఉంది,True,Telugu battery
+55,BATTERY,Telugu,battery entha undi,True,Telugish battery
+56,BATTERY,Malayalam,ബാറ്ററി എത്ര ഉണ്ട്,True,Malayalam battery
+57,BATTERY,Malayalam,battery ethra undu,True,Manglish battery
+58,BATTERY,Kannada,ಬ್ಯಾಟರಿ ಎಷ್ಟು ಇದೆ,True,Kannada battery
+59,BATTERY,Kannada,battery eshtu ide,True,Kanglish battery
+60,RAM,English,ram usage,True,English RAM
+61,RAM,Tamil,ரேம் பயன்பாடு என்ன,True,Tamil RAM
+62,RAM,Tanglish,RAM usage sollu,True,Tanglish RAM usage sollu
+63,RAM,Tanglish,ram evlo,True,Tanglish RAM evlo
+64,RAM,Hindi,रैम उपयोग कितना है,True,Hindi RAM
+65,RAM,Hindi,ram kitna use ho raha hai,True,Hinglish RAM
+66,RAM,Telugu,ర్యామ్ వినియోగం ఎంత,True,Telugu RAM
+67,RAM,Telugu,ram entha use avtundi,True,Telugish RAM
+68,RAM,Malayalam,റാം ഉപയോഗം എത്രയാണ്,True,Malayalam RAM
+69,RAM,Malayalam,ram usage ethra,True,Manglish RAM
+70,RAM,Kannada,ರ‍್ಯಾಮ್ ಬಳಕೆ ಎಷ್ಟು,True,Kannada RAM
+71,RAM,Kannada,ram usage eshtu,True,Kanglish RAM
+72,CPU,English,cpu usage,True,English CPU
+73,CPU,English,processor load,True,English CPU Load
+74,CPU,Tamil,செயலி பயன்பாடு என்ன,True,Tamil CPU
+75,CPU,Tanglish,cpu evlo use aaguthu,True,Tanglish CPU
+76,CPU,Hindi,सीपीयू उपयोग कितना है,True,Hindi CPU
+77,CPU,Hindi,cpu usage kitna hai,True,Hinglish CPU
+78,CPU,Telugu,సిపియు లోడ్ ఎంత,True,Telugu CPU
+79,CPU,Telugu,cpu load entha,True,Telugish CPU
+80,CPU,Malayalam,സിപിയു ഉപയോഗം എത്ര,True,Malayalam CPU
+81,CPU,Malayalam,cpu usage ethra,True,Manglish CPU
+82,CPU,Kannada,ಸಿಪಿಯು ಬಳಕೆ ಎಷ್ಟು,True,Kannada CPU
+83,CPU,Kannada,cpu usage eshtu,True,Kanglish CPU
+84,NETWORK,English,wifi status,True,English Wi-Fi
+85,NETWORK,Tamil,வைஃபை நிலை என்ன,True,Tamil Wi-Fi
+86,NETWORK,Tanglish,WiFi status enna,True,Tanglish WiFi status enna
+87,NETWORK,Tanglish,wifi connect aagi iruka,True,Tanglish Wi-Fi connect
+88,NETWORK,Hindi,वाईफाई स्थिति क्या है,True,Hindi Wi-Fi
+89,NETWORK,Hindi,wifi connect hai kya,True,Hinglish Wi-Fi
+90,NETWORK,Telugu,వైఫై స్థితి ఏంటి,True,Telugu Wi-Fi
+91,NETWORK,Telugu,wifi connect ayinda,True,Telugish Wi-Fi
+92,NETWORK,Malayalam,വൈഫൈ അവസ്ഥ എന്താണ്,True,Malayalam Wi-Fi
+93,NETWORK,Malayalam,wifi status entha,True,Manglish Wi-Fi
+94,NETWORK,Kannada,ವೈಫೈ ಸ್ಥಿತಿ ಏನು,True,Kannada Wi-Fi
+95,NETWORK,Kannada,wifi status enu,True,Kanglish Wi-Fi
+96,SCREENSHOT,English,take screenshot,True,English Screenshot
+97,SCREENSHOT,Tamil,ஸ்கிரீன்ஷாட் எடு,True,Tamil Screenshot
+98,SCREENSHOT,Tanglish,screenshot edu,True,Tanglish Screenshot edu
+99,SCREENSHOT,Hindi,स्क्रीनशॉट लो,True,Hindi Screenshot
+100,SCREENSHOT,Hindi,screenshot lo,True,Hinglish Screenshot
+101,SCREENSHOT,Telugu,స్క్రీన్‌షాట్ తీయి,True,Telugu Screenshot
+102,SCREENSHOT,Telugu,screenshot theeyi,True,Telugish Screenshot
+103,SCREENSHOT,Malayalam,സ്ക്രീൻഷോട്ട് എടുക്കുക,True,Malayalam Screenshot
+104,SCREENSHOT,Malayalam,screenshot edukku,True,Manglish Screenshot
+105,SCREENSHOT,Kannada,ಸ್ಕ್ರೀನ್‌ಶಾಟ್ ತೆಗೆಯಿರಿ,True,Kannada Screenshot
+106,SCREENSHOT,Kannada,screenshot thegedhukolli,True,Kanglish Screenshot
+107,APP_LAUNCHER,English,open calculator,True,English Calculator
+108,APP_LAUNCHER,Tamil,கால்குலேட்டரை திற,True,Tamil Calculator
+109,APP_LAUNCHER,Tanglish,calculator open pannu,True,Tanglish Calculator
+110,APP_LAUNCHER,Hindi,कैलकुलेटर खोलो,True,Hindi Calculator
+111,APP_LAUNCHER,Hindi,calculator open karo,True,Hinglish Calculator
+112,APP_LAUNCHER,Telugu,కాలిక్యులేటర్ ఓపెన్ చేయి,True,Telugu Calculator
+113,APP_LAUNCHER,Telugu,calculator open cheyi,True,Telugish Calculator
+114,APP_LAUNCHER,Malayalam,കാൽക്കുലേറ്റർ തുറക്കുക,True,Malayalam Calculator
+115,APP_LAUNCHER,Malayalam,calculator thurakku,True,Manglish Calculator
+116,APP_LAUNCHER,Kannada,ಕ್ಯಾಲ್ಕುಲೇಟರ್ ತೆರೆಯಿರಿ,True,Kannada Calculator
+117,APP_LAUNCHER,Kannada,calculator open maadi,True,Kanglish Calculator
+118,APP_LAUNCHER,English,open notepad,True,English Notepad
+119,APP_LAUNCHER,Tamil,நோட்பேடை திற,True,Tamil Notepad
+120,APP_LAUNCHER,Tanglish,notepad open pannu,True,Tanglish Notepad
+121,APP_LAUNCHER,Hindi,नोटपैड खोलो,True,Hindi Notepad
+122,APP_LAUNCHER,Hindi,notepad kholo,True,Hinglish Notepad
+123,APP_LAUNCHER,Telugu,నోట్‌ప్యాడ్ ఓపెన్ చేయి,True,Telugu Notepad
+124,APP_LAUNCHER,Telugu,notepad open cheyi,True,Telugish Notepad
+125,APP_LAUNCHER,Malayalam,നോട്ട്പാഡ് തുറക്കുക,True,Malayalam Notepad
+126,APP_LAUNCHER,Malayalam,notepad thurakku,True,Manglish Notepad
+127,APP_LAUNCHER,Kannada,ನೋಟ್‌ಪ್ಯಾಡ್ ತೆರೆಯಿರಿ,True,Kannada Notepad
+128,APP_LAUNCHER,Kannada,notepad open maadi,True,Kanglish Notepad
+129,FIRST_AID,English,how do I treat a burn,True,English Burns
+130,FIRST_AID,English,what are the steps for adult cpr,True,English CPR
+131,FIRST_AID,English,choking heimlich maneuver,True,English Choking
+132,FIRST_AID,Tamil,தீக்காயத்திற்கு முதலுதவி என்ன,True,Tamil Burns
+133,FIRST_AID,Tanglish,burn aana enna pannanum,True,Tanglish Burns
+134,FIRST_AID,Tanglish,theekaayam first aid,True,Tanglish Theekaayam
+135,FIRST_AID,Tanglish,paambu kadicha enna pannanum,True,Tanglish Snake bite
+136,FIRST_AID,Hindi,जलने पर क्या करें,True,Hindi Burns
+137,FIRST_AID,Hindi,jalne ka first aid,True,Hinglish Burns
+138,FIRST_AID,Telugu,కాలిన గాయానికి ప్రథమ చికిత్స ఏమిటి,True,Telugu Burns
+139,FIRST_AID,Telugu,kaalina first aid enti,True,Telugish Burns
+140,FIRST_AID,Malayalam,പൊള്ളലേറ്റാൽ എന്ത് ചെയ്യണം,True,Malayalam Burns
+141,FIRST_AID,Malayalam,pollal first aid,True,Manglish Burns
+142,FIRST_AID,Kannada,ಸುಟ್ಟ ಗಾಯಕ್ಕೆ ಪ್ರಥಮ ಚಿಕಿತ್ಸೆ ಏನು,True,Kannada Burns
+143,FIRST_AID,Kannada,sutta gaaya first aid,True,Kanglish Burns
+144,HEALTH_KNOWLEDGE,English,how much water should I drink daily,True,English Hydration
+145,HEALTH_KNOWLEDGE,English,headache and migraine remedies,True,English Headache
+146,HEALTH_KNOWLEDGE,Tamil,தினமும் எவ்வளவு தண்ணீர் குடிக்க வேண்டும்,True,Tamil Hydration
+147,HEALTH_KNOWLEDGE,Tanglish,dhinaum evlo thanneer kudikanum,True,Tanglish Hydration
+148,HEALTH_KNOWLEDGE,Tanglish,thalavali poga enna pannanum,True,Tanglish Headache
+149,HEALTH_KNOWLEDGE,Hindi,रोज कितना पानी पीना चाहिए,True,Hindi Hydration
+150,HEALTH_KNOWLEDGE,Hindi,sar dard ke liye kya kare,True,Hinglish Headache
+151,HEALTH_KNOWLEDGE,Telugu,రోజుకు ఎంత నీళ్ళు తాగాలి,True,Telugu Hydration
+152,HEALTH_KNOWLEDGE,Telugu,thalanopi ki emi cheyali,True,Telugish Headache
+153,HEALTH_KNOWLEDGE,Malayalam,ദിവസവും എത്ര വെള്ളം കുടിക്കണം,True,Malayalam Hydration
+154,HEALTH_KNOWLEDGE,Malayalam,thalavedhana maaran enthu cheyyanam,True,Manglish Headache
+155,HEALTH_KNOWLEDGE,Kannada,ದಿನಕ್ಕೆ ಎಷ್ಟು ನೀರು ಕುಡಿಯಬೇಕು,True,Kannada Hydration
+156,HEALTH_KNOWLEDGE,Kannada,thalenovu remedies,True,Kanglish Headache
+157,MATH,English,what is 25 times 4,True,Multiplication English
+158,MATH,English,100 divided by 5,True,Division English
+159,MATH,English,50 percent of 200,True,Percentage English
+160,MATH,English,square root of 144,True,Square root English
+161,MATH,Tanglish,50 kooda 25 kootu,True,Tanglish Addition
+162,MATH,Tanglish,100 la 20 kali,True,Tanglish Subtraction
+163,MATH,Hindi,25 aur 15 jodo,True,Hinglish Addition
+164,MATH,Hindi,100 se 20 ghatao,True,Hinglish Subtraction
+165,MATH,Telugu,25 mariyu 15 kalapandi,True,Telugish Addition
+166,MATH,Malayalam,25 koottal 15,True,Manglish Addition
+167,MATH,Kannada,25 mathu 15 koodisi,True,Kanglish Addition
+168,UNIT_CONVERSION,English,convert 100 celsius to fahrenheit,True,Temperature conversion
+169,UNIT_CONVERSION,English,convert 10 km to miles,True,Distance conversion
+170,NOISE,Any,,True,Empty input
+171,NOISE,Any,...,True,Pause dots
+172,NOISE,Any,[inaudible],True,ASR inaudible tag
+173,NOISE,Any,uhh,True,Hesitation sound
+174,GENERAL_LLM,English,tell me a story about space exploration,False,Creative story EN
+175,GENERAL_LLM,English,explain quantum computing in simple terms,False,Complex science EN
+176,GENERAL_LLM,English,write a python script for binary search,False,Coding request EN
+177,GENERAL_LLM,Tamil,எனக்கு ஒரு சிறுகதை சொல்,False,Creative story TA
+178,GENERAL_LLM,Tamil,பைதான் நிரலாக்கம் பற்றி விளக்கு,False,Coding explanation TA
+179,GENERAL_LLM,Hindi,मुझे एक कहानी सुनाओ,False,Creative story HI
+180,GENERAL_LLM,Hindi,मशीन लर्निंग क्या है समझाइए,False,Tech explanation HI
+181,GENERAL_LLM,Telugu,నాకు ఒక మంచి కథ చెప్పు,False,Creative story TE
+182,GENERAL_LLM,Malayalam,എനിക്ക് ഒരു കഥ പറഞ്ഞു തരൂ,False,Creative story ML
+183,GENERAL_LLM,Kannada,ನನಗೆ ಒಂದು ಕಥೆ ಹೇಳು,False,Creative story KN
