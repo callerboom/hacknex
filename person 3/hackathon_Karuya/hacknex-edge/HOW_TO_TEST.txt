@@ -1,0 +1,239 @@
+# PERSON 3 — MODULE B: HOW TO START & TEST
+# HackNEX 2026 | EdgeVoice Jarvis — AI Brain & Voice Lead
+# =====================================================
+
+## STEP 1: Go to project folder
+cd C:\Users\YOGESH\Desktop\hackathon_Karuya\hacknex-edge
+
+## STEP 2: Install dependencies (one time only)
+pip install pyyaml numpy psutil
+
+## STEP 3: (OPTIONAL) Install real AI models
+## Without these, code runs in STUB/FALLBACK mode (sine wave TTS, dummy LLM)
+## That is OK for logic testing. For real audio, install these:
+
+# LLM (GGUF model):
+pip install llama-cpp-python
+# Then download model from HuggingFace and place in models/ folder:
+# https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct-GGUF
+# File name: qwen2.5-0.5b-instruct-q4_k_m.gguf -> put in hacknex-edge/models/
+
+# TTS (sherpa-onnx):
+pip install sherpa-onnx
+# Download TTS model from: https://github.com/k2-fsa/sherpa-onnx/releases
+# Place folder in: hacknex-edge/models/tts/vits-piper-en_US-lessac-medium/
+
+# =====================================================
+## TEST 1: Knowledge Retrieval (BM25) — RUNS WITHOUT ANY MODEL
+# =====================================================
+# What it tests: BM25 search over health_tips.md and first_aid.md
+# Expected: Finds relevant snippets for medical queries in <1ms
+
+cd C:\Users\YOGESH\Desktop\hackathon_Karuya\hacknex-edge
+python -c "
+import sys
+sys.path.insert(0, '.')
+from src.edge.knowledge import KnowledgeRetriever
+import time
+
+kr = KnowledgeRetriever()
+kr.load()
+
+queries = [
+    'How to treat a minor burn?',
+    'CPR steps',
+    'Signs of dehydration',
+    'sprained ankle RICE',
+    'choking heimlich',
+]
+for q in queries:
+    t0 = time.perf_counter()
+    snippet = kr.search(q, top_k=1)
+    ms = (time.perf_counter() - t0) * 1000
+    print(f'[{ms:.1f}ms] {q}')
+    print(f'       => {snippet[:80]}')
+    print()
+print('KNOWLEDGE TEST DONE!')
+"
+
+## EXPECTED OUTPUT:
+## [0.2ms] How to treat a minor burn?
+##        => Cool water should be run over a minor burn...
+## [0.1ms] CPR steps
+##        => Call emergency services immediately before starting CPR...
+## etc.
+
+# =====================================================
+## TEST 2: TTS Sentence Splitter — RUNS WITHOUT ANY MODEL
+# =====================================================
+# What it tests: sentence boundary detection from LLM token stream
+
+python -c "
+import sys
+sys.path.insert(0, '.')
+from src.edge.tts import split_on_boundary
+
+tests = [
+    'Cool water should be run over a burn. Do not use ice.',
+    'Hello! How are you? I am Jarvis.',
+    'First sentence here. Second one. Third!',
+    'No boundary yet',
+]
+for txt in tests:
+    sents, rem = split_on_boundary(txt)
+    print(f'Input:     {txt}')
+    print(f'Sentences: {sents}')
+    print(f'Remaining: {rem}')
+    print()
+print('SENTENCE SPLITTER TEST DONE!')
+"
+
+## EXPECTED OUTPUT:
+## Input:     Cool water should be run over a burn. Do not use ice.
+## Sentences: ['Cool water should be run over a burn.', 'Do not use ice.']
+## etc.
+
+# =====================================================
+## TEST 3: TTS Audio Generation — RUNS WITHOUT ANY MODEL (sine wave stub)
+# =====================================================
+# What it tests: synth_stream(), audio chunks, TTFA latency
+
+python -c "
+import sys, time
+sys.path.insert(0, '.')
+import numpy as np
+from src.edge.tts import SentenceChunkedTTS
+
+tts = SentenceChunkedTTS()
+print(f'Backend: {tts._backend_type} (stub=no model, sherpa_onnx=real TTS)')
+
+sentences = [
+    'Cool water should be run over a minor burn for ten to twenty minutes.',
+    'Do not apply ice. Consult a doctor for serious burns.',
+]
+
+t0 = time.perf_counter()
+ttfa_ms = None
+chunks = 0
+for sent in sentences:
+    for chunk in tts.synth_stream(sent):
+        if ttfa_ms is None:
+            ttfa_ms = (time.perf_counter() - t0) * 1000
+        chunks += 1
+        assert chunk.dtype == np.float32
+
+total_ms = (time.perf_counter() - t0) * 1000
+print(f'TTFA  : {ttfa_ms:.1f} ms   (target < 200ms)')
+print(f'Total : {total_ms:.0f} ms')
+print(f'Chunks: {chunks}')
+print('TTS TEST DONE!')
+"
+
+## EXPECTED OUTPUT:
+## Backend: stub (or sherpa_onnx if model installed)
+## TTFA  : ~3-75 ms   <- PASS if < 200ms
+## Total : ~5-100 ms
+## Chunks: 300-400
+
+# =====================================================
+## TEST 4: LLM Streaming — needs llama-cpp-python (stub if not installed)
+# =====================================================
+# What it tests: token streaming, TTFT latency, response quality
+
+python -c "
+import sys, time
+sys.path.insert(0, '.')
+from src.edge.llm import GGUFLocalLLM
+
+llm = GGUFLocalLLM()
+llm.load()
+
+query = 'How do I treat a minor burn?'
+print(f'Query: {query}')
+print('Response: ', end='', flush=True)
+
+t0 = time.perf_counter()
+ttft_ms = None
+resp = ''
+for tok in llm.stream(query, []):
+    if ttft_ms is None:
+        ttft_ms = (time.perf_counter() - t0) * 1000
+    resp += tok
+    print(tok, end='', flush=True)
+
+total_ms = (time.perf_counter() - t0) * 1000
+print()
+print(f'TTFT : {ttft_ms:.1f} ms')
+print(f'Total: {total_ms:.0f} ms')
+print(f'Chars: {len(resp)}')
+print('LLM TEST DONE!')
+"
+
+## EXPECTED OUTPUT (stub mode):
+## Query: How do I treat a minor burn?
+## Response: I am running in offline stub mode. Please place a GGUF model...
+## TTFT : 0.1 ms
+## EXPECTED OUTPUT (real GGUF):
+## Response: Run cool water over the burn for 10-20 minutes...
+## TTFT : 50-200 ms
+
+# =====================================================
+## TEST 5: TTS Cache — RUNS WITHOUT ANY MODEL
+# =====================================================
+# What it tests: cache warm-up, 0ms cache hit, disk persistence
+
+python -c "
+import sys, time
+sys.path.insert(0, '.')
+from src.edge.tts import SentenceChunkedTTS
+from src.edge.tts_cache import TTSCache
+
+tts = SentenceChunkedTTS()
+cache = TTSCache(sample_rate=tts.sample_rate)
+
+print('Warming cache with 10 common phrases...')
+cache.warm(tts)
+
+phrase = 'Hello! How can I help you?'
+t0 = time.perf_counter()
+it = cache.stream(phrase)
+hit_ms = (time.perf_counter() - t0) * 1000
+
+print(f'Cache HIT latency : {hit_ms:.2f} ms  (target < 5ms)')
+print(f'Stats: {cache.stats()}')
+print('CACHE TEST DONE!')
+"
+
+## EXPECTED OUTPUT:
+## Warming cache with 10 common phrases...
+## Cache HIT latency : 0.02 ms  <- PASS
+## Stats: {'hits': 1, 'misses': 0, 'hit_rate': '100.0%', 'cached_phrases': 10, ...}
+
+# =====================================================
+## TEST 6: FULL END-TO-END PIPELINE (Best Test!)
+# =====================================================
+# Runs all 7 tests together — Knowledge + LLM + TTS + Cache + Memory
+
+python tests/test_llm_tts.py
+
+## EXPECTED OUTPUT:
+## ============================================================
+##   HackNEX 2026 - Person 3 Module B Benchmark
+## ============================================================
+## TEST 1 - BM25 Knowledge Retrieval ... PASS
+## TEST 2 - LLM Streaming           ... PASS
+## TEST 3 - Sentence Boundary        ... PASS
+## TEST 4 - TTS TTFA                 ... PASS
+## TEST 5 - E2E Pipeline             ... PASS
+## TEST 6 - TTS Cache                ... PASS
+## TEST 7 - Memory Limit             ... PASS
+## 7/7 tests passed
+
+# =====================================================
+## WHAT THE RESULTS MEAN:
+# =====================================================
+## stub mode   -> No real AI models installed. Logic works, audio is sine wave.
+## real mode   -> GGUF + TTS models installed. Full voice AI pipeline running.
+## TTFA < 200ms -> Competition requirement MET
+## RAM < 3072MB -> Competition requirement MET
+## BM25 search  -> Medical knowledge retrieved offline in <1ms

@@ -1,0 +1,61 @@
+==============================================================================
+PROMPT FOR PERSON 3: LOCAL LLM, KNOWLEDGE RETRIEVAL & TTS (MODULE B - THINKING & SPEAKING)
+ROLE: Edge LLM & Voice Synthesis Lead
+PROJECT: HackNEX 2026 - EdgeVoice / Jarvis-Edge
+==============================================================================
+
+YOUR MISSION:
+You are the "Brain" and "Voice" of our offline assistant. When Person 1's fast router passes a question to the LLM, you retrieve relevant offline medical/health snippets using BM25, stream response tokens from a compact CPU GGUF model via `llama-cpp-python`, and immediately feed completed sentences into Piper/Sherpa TTS so speech starts with near-zero delay (<200ms)!
+
+YOUR ASSIGNED FILES:
+1. `src/edge/knowledge.py` (In-memory BM25 ranker over `data/knowledge/*.md`)
+2. `src/edge/llm.py` (`llama-cpp-python` streaming GGUF inference with prompt KV-cache reuse)
+3. `src/edge/tts.py` (Piper / Sherpa-ONNX sentence-chunked streaming speech synthesis)
+4. `src/edge/tts_cache.py` (Disk/RAM audio cache for common phrases)
+5. `tests/test_llm_tts.py` (Benchmarking time-to-first-token, first-sentence, first-audio)
+
+DEPENDENCIES:
+`llama-cpp-python`, `piper-tts`, `sherpa-onnx`, `numpy`. (All installed and verified CPU-only).
+
+WHAT YOU NEED TO BUILD:
+
+1. OFFLINE KNOWLEDGE RETRIEVAL (`src/edge/knowledge.py`):
+   - Pure Python BM25 index over Markdown files in `data/knowledge/*.md`.
+   - Zero vector database, zero heavy embedding models (CPU and RAM efficient).
+   - `def search(self, query: str, top_k: int = 1) -> str`: Returns the top matching text snippet to inject into the LLM system prompt.
+
+2. LOCAL LLM INFERENCE (`src/edge/llm.py`):
+   - Implements `LLM` protocol from `src.edge.contracts`:
+     `def stream(self, user_text: str, history: list[Turn]) -> Iterator[str]`
+   - Loads a small Q4/Q5 GGUF model (e.g. Qwen2.5-0.5B-Instruct or 1.5B) using `llama_cpp.Llama`.
+   - Parameters: `n_ctx=512`, `n_batch=128`, threads pinned to declared limit, `mmap=True`.
+   - Prompt & KV-Cache Reuse: Keep the fixed system prompt pre-cached in memory so prompt processing is near 0ms!
+   - System Prompt: "You are Jarvis, a fast, helpful edge AI assistant. Provide short, concise 1-2 sentence answers. For medical questions, add a brief disclaimer."
+   - Yields token strings one by one as they are generated.
+
+3. SENTENCE-CHUNKED TTS (`src/edge/tts.py`):
+   - Implements `TTS` protocol from `src.edge.contracts`:
+     `sample_rate: int = 16000 or 22050`
+     `def synth_stream(self, sentence: str) -> Iterator[np.ndarray]`
+   - Sentence-Boundary Chunker: Take the streaming token stream from the LLM, buffer until punctuation (`.`, `?`, `!`, `, `), and immediately synthesize that sentence without waiting for the full LLM reply!
+   - Synthesis Engine: Piper ONNX model or `sherpa_onnx.OfflineTts` (CPU-optimized VITS).
+   - Generates float32 `np.ndarray` audio chunks ready for playback.
+
+4. TTS AUDIO CACHE (`src/edge/tts_cache.py`):
+   - Pre-synthesize and store WAVs for frequent answers (e.g., "Hello! How can I help you?", "I didn't catch that. Could you repeat?", system responses).
+   - When a cache hit occurs, stream audio with 0ms synthesis delay! Expose cache hit statistics.
+
+INPUT & OUTPUT CONTRACT:
+- Input: `user_text: str` and `history: list[Turn]`.
+- Output: Audio chunks iterator `Iterator[np.ndarray]` at defined `sample_rate`.
+
+HOW TO TEST YOUR WORK STANDALONE:
+Create and run `tests/test_llm_tts.py`:
+- Call `llm.stream("How to treat a minor burn?", [])`.
+- Pipe tokens into `tts.synth_stream()`.
+- Measure:
+  * Time to first token (TTFT)
+  * Time to first sentence
+  * Time to first audio chunk (TTFA)
+  * Verify memory footprint is under the limit.
+==============================================================================

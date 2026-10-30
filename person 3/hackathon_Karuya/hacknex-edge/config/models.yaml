@@ -1,0 +1,40 @@
+# config/models.yaml - Model paths for HackNEX 2026 HNX26EPS08
+llm:
+  path: "models/qwen2.5-0.5b-instruct-q4_k_m.gguf"
+  fallbacks:
+    - "models/qwen2.5-1.5b-instruct-q4_k_m.gguf"
+    - "models/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf"
+  n_ctx: 2048
+  n_batch: 512
+  max_tokens: 1024
+  temperature: 0.4
+  top_p: 0.9
+
+asr:
+  sherpa_onnx:
+    encoder: "models/asr/zipformer/encoder.int8.onnx"
+    decoder: "models/asr/zipformer/decoder.int8.onnx"
+    joiner: "models/asr/zipformer/joiner.int8.onnx"
+    tokens: "models/asr/zipformer/tokens.txt"
+    num_threads: 2
+  faster_whisper:
+    model_size: "tiny.en"
+    compute_type: "int8"
+    device: "cpu"
+
+tts:
+  sherpa_onnx:
+    model_dir: "models/tts/vits-piper-en_US-lessac-medium"
+    speaker_id: 0
+    speed: 1.0
+  piper:
+    model: "models/tts/en_US-lessac-medium.onnx"
+    config: "models/tts/en_US-lessac-medium.onnx.json"
+
+vad:
+  silero:
+    model: "models/vad/silero_vad.onnx"
+    threshold: 0.5
+    min_speech_duration_ms: 250
+    min_silence_duration_ms: 500
+    pre_roll_ms: 300
