@@ -1,0 +1,15 @@
+# config/limits.yaml — Hardware Limits & Governance Configuration
+declared_limit:
+  cores: 4
+  ram_mb: 3072
+  enforcement: "Win32 Job Object + CPU Affinity"
+
+governor:
+  tier1_ram_mb: 2500
+  tier2_ram_mb: 2800
+  tier1_cpu_pct: 80
+  tier2_cpu_pct: 92
+  hysteresis_mb: 100
+  hysteresis_pct: 5
+  sample_interval_ms: 500
+  image_min_headroom_mb: 400

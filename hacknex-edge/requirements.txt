@@ -1,0 +1,15 @@
+sounddevice>=0.5.0
+onnxruntime>=1.20.0
+faster-whisper>=1.0.0
+ctranslate2>=4.0.0
+llama-cpp-python>=0.3.0
+piper-tts>=1.2.0
+psutil>=5.9.0
+fastapi>=0.110.0
+uvicorn>=0.28.0
+websockets>=12.0
+jiwer>=3.0.0
+pyyaml>=6.0
+numpy>=1.24.0
+scipy>=1.11.0
+pillow>=10.0.0

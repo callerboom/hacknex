@@ -1,0 +1,21 @@
+# config/flags.yaml — Feature Toggles and Ablation Switches
+enable_asr: true
+enable_llm: true
+enable_tts: true
+enable_vad: true
+enable_mic: true
+enable_fast_router: true
+enable_knowledge_retrieval: true
+enable_streaming_tts: true
+enable_tts_cache: true
+enable_kv_cache: true
+enable_barge_in: true
+enable_vad_preroll: true
+enable_streaming_asr: true
+enable_job_object: true
+enable_cpu_affinity: true
+enable_governor: true
+enable_dashboard: true
+wakeword_enabled: false
+ram_cap_mb: 3072
+cpu_cores: 4

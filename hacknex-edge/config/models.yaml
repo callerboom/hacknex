@@ -1,0 +1,38 @@
+# config/models.yaml — Offline Models Paths & Inference Parameters
+vad:
+  model_path: "models/vad/silero_vad.onnx"
+  start_threshold: 0.5
+  end_threshold: 0.35
+  preroll_chunks: 8
+  hangover_chunks: 16
+  min_speech_chunks: 3
+
+asr:
+  tier: "whisper"
+  model_en: "models/asr/whisper_tiny_en"
+  model_multilingual: "models/asr/whisper_tiny_multilingual"
+  compute_type: "int8"
+  device: "cpu"
+  threads: 4
+  beam_size: 1
+
+llm:
+  path: "models/llm/qwen2.5-0.5b-instruct-q4_k_m.gguf"
+  fallbacks:
+    - "models/llm/qwen2.5-0.5b-instruct-q5_k_m.gguf"
+    - "models/llm/qwen2.5-1.5b-instruct-q4_k_m.gguf"
+  n_ctx: 1024
+  n_batch: 256
+  max_tokens: 256
+  temperature: 0.4
+  top_p: 0.9
+
+tts:
+  piper:
+    model: "models/tts/en_US-lessac-medium.onnx"
+    config: "models/tts/en_US-lessac-medium.onnx.json"
+  sample_rate: 22050
+
+wakeword:
+  model_dir: "models/wakeword"
+  enabled: true
