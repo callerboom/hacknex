@@ -1,0 +1,149 @@
+==============================================================================
+HACKNEX 2026: ON-DEVICE CONVERSATIONAL STACK (HNX26EPS08)
+MASTER SYSTEM ARCHITECTURE & IMPLEMENTATION PROMPT
+==============================================================================
+
+1. MISSION & COMPETITION OVERVIEW
+You are a senior Edge-AI and Performance Systems Engineer on a 4-person team. We are building the final, complete, working entry for hackathon problem HNX26EPS08: "On-Device Conversational Stack" (HackNEX 2026).
+The system is an offline, CPU-only, ultra-low latency voice-to-voice assistant running on Windows, featuring:
+1. Real-time microphone listening and Voice Activity Detection (VAD).
+2. Local Streaming Automatic Speech Recognition (ASR).
+3. Instant Rule-based Router + In-memory BM25 Knowledge Retrieval + Local GGUF LLM.
+4. Sentence-chunked Text-to-Speech (TTS) with cached responses.
+5. Strict, proven hardware resource limits (CPU cores & RAM) enforced at the OS level.
+6. A live FastAPI + WebSocket telemetry dashboard showing latency waterfalls and resource gauges.
+
+Every module must be real, fully runnable, and measured. There are NO mocks, NO stubs, NO cloud calls, and NO GPU dependencies. Live judging is conducted on our physical laptop with unseen spoken questions.
+
+------------------------------------------------------------------------------
+2. VERIFIED HOST ENVIRONMENT
+- OS: Windows 11 Home Single Language (64-bit)
+- CPU: AMD Ryzen 7 7445HS w/ Radeon 740M Graphics (6 physical cores, 12 logical processors)
+- RAM: 16.0 GB Total (~15.27 GiB visible, ~4.9 GB free physical RAM)
+- Python Version: Python 3.11.9 (64-bit)
+- Verified Installed Libraries:
+  * Audio I/O: sounddevice 0.5.6 (native low-latency stream)
+  * VAD: onnxruntime 1.30.0 (CPUExecutionProvider) + openwakeword 0.6.0
+  * ASR: sherpa-onnx 1.13.8 (streaming transducer) + faster-whisper 1.2.1 (CTranslate2 int8)
+  * LLM: llama-cpp-python 0.3.36 (AVX2/FMA GGUF CPU inference)
+  * TTS: piper-tts 1.8.0 + sherpa-onnx Offline C++ VITS/Kokoro TTS
+  * Governance & Metrics: psutil 7.2.2 (Windows JobObject Memory + CPU Affinity)
+  * Server & Dashboard: fastapi 0.115.0 + uvicorn 0.30.6 + websockets 16.1.1
+  * Evaluation: jiwer 4.0.0, pyyaml 6.0.3
+
+------------------------------------------------------------------------------
+3. STRICT NON-NEGOTIABLE COMPETITION CONSTRAINTS
+1. PASS/FAIL GATE: 100% on-device, CPU-only, zero GPU, zero cloud/API calls.
+2. ENFORCED RESOURCE LIMITS: Must declare and natively enforce hardware limits (Default: 4 cores, 3072 MB RAM) using Windows Win32 Job Object (memory cap) and process CPU affinity. Print and display live proof to the dashboard.
+3. REAL EXECUTION ONLY: No hardcoded or faked numbers. Every entry in results/, dashboard, and WRITEUP.md must be generated from an actual measured run.
+4. METRIC INTEGRITY: End-to-end latency = tts_first_audio minus speech_end. Never game the metric with filler sounds ("hmm", "let me think").
+5. CONTRACT COMPLIANCE: All modules plug together ONLY through src/edge/contracts.py. Never alter contracts.py without cross-module coordination.
+
+------------------------------------------------------------------------------
+4. REPOSITORY LAYOUT
+hacknex-edge/
+├── README.md                          # Quickstart, live demo script, limit controls
+├── WRITEUP.md                         # Performance narrative & measured tables
+├── requirements.txt                   # Exact pinned dependencies
+├── config/
+│   ├── limits.yaml                    # Hardware caps (cores, RAM, hysteresis)
+│   ├── models.yaml                    # Paths, tiers, GGUF/ONNX quantizations
+│   └── flags.yaml                     # Ablation switches (streaming, KV cache, router)
+├── data/knowledge/
+│   ├── health_tips.md                 # Offline medical & wellness info
+│   └── first_aid.md                   # Offline emergency first-aid guidelines
+├── src/edge/
+│   ├── contracts.py                   # Frozen shared data types & protocols
+│   ├── audio_io.py                    # Real mic capture & speaker output (sounddevice)
+│   ├── vad.py                         # Silero VAD (ONNX), circular pre-roll, barge-in
+│   ├── asr.py                         # Dual ASR: sherpa-onnx transducer + faster-whisper int8
+│   ├── router.py                      # Fast rule-based router (<5ms) + Jarvis offline commands
+│   ├── knowledge.py                   # In-memory BM25 plain text retriever
+│   ├── llm.py                         # llama-cpp-python streaming GGUF + prompt KV-cache
+│   ├── tts.py                         # Sentence-chunked Piper / Sherpa-ONNX TTS
+│   ├── tts_cache.py                   # Audio cache for common phrases & greetings
+│   ├── limits.py                      # Windows Win32 Job Object & CPU affinity governor
+│   ├── metrics.py                     # High-precision latency markers & psutil tree sampler
+│   ├── governor.py                    # Graceful degradation ladder with hysteresis
+│   └── pipeline.py                    # Overlapped worker threads & queue orchestrator
+├── bench/
+│   ├── record_testset.py              # Test harness with 40+ spoken test requests
+│   ├── run_baseline.py                # Runs Baseline 1 (un-streamed) & Baseline 2 (tuned)
+│   ├── run_ablation.py                # Leave-one-out and cumulative ablation runner
+│   ├── run_degradation.py             # Measures 4, 3, 2, and 1 core stepping
+│   ├── energy.py                      # Windows CPU cycle & power delta estimator
+│   ├── offline_proof.py               # Disables outbound networking & proves 100% offline
+│   └── make_report.py                 # Generates benchmark markdown tables for WRITEUP.md
+├── dashboard/
+│   ├── server.py                      # FastAPI app + WebSocket telemetry broadcaster
+│   └── static/
+│       └── index.html                 # Single-file modern Glassmorphism live dashboard UI
+├── scripts/
+│   ├── download_models.py             # Pre-fetches and verifies all GGUF & ONNX models
+│   ├── start_demo.ps1                 # One-click startup on Windows under 60 seconds
+│   └── run_limited.ps1                # Runs pipeline under enforced limits
+├── results/                           # Auto-generated benchmark CSVs & JSONs
+└── tests/
+    ├── test_asr_vad.py                # Audio & ASR verification with real WAV files
+    └── test_llm_tts.py                # Brain & Speech synthesis unit tests
+
+------------------------------------------------------------------------------
+5. 4-PERSON MODULAR RESPONSIBILITIES (ZERO MERGE CONFLICTS)
+
+- PERSON 1 (Beginner / Light Task) — Offline Knowledge & Jarvis Fast Path:
+  * Responsibilities: Build data/knowledge/*.md and src/edge/router.py.
+  * Features: Fast greetings, time/date, math calculator, offline Jarvis OS commands (battery check, volume control, open apps, system stats).
+  * Interface: Takes user text string (user_text: str) -> returns instant answer (str) or None (passes to LLM).
+
+- PERSON 2 (Audio Lead) — Listening Engine (Module A):
+  * Responsibilities: Build src/edge/audio_io.py, src/edge/vad.py, src/edge/asr.py, and tests/test_asr_vad.py.
+  * Features: 16kHz float32 mic capture, Silero VAD ONNX with pre-roll buffer & barge-in, Sherpa-ONNX streaming transducer + Whisper int8.
+  * Interface: Produces SpeechSegment and Transcript meeting contracts.py.
+
+- PERSON 3 (AI Brain Lead) — Thinking & Speaking (Module B):
+  * Responsibilities: Build src/edge/llm.py, src/edge/knowledge.py, src/edge/tts.py, src/edge/tts_cache.py, and tests/test_llm_tts.py.
+  * Features: Small GGUF LLM streaming, BM25 retriever, sentence-boundary chunking TTS (<150ms to first audio chunk), cached audio.
+  * Interface: Consumes text -> streams audio chunks (Iterator[np.ndarray]).
+
+- PERSON 4 (Integration & Systems Lead) — Limits & Live Delivery (Module C & D):
+  * Responsibilities: Build src/edge/limits.py, src/edge/metrics.py, src/edge/governor.py, src/edge/pipeline.py, dashboard/server.py, dashboard/static/index.html, and scripts/start_demo.ps1.
+  * Features: Windows Job Object RAM cap, CPU core pinning, latency waterfall timers, FastAPI live telemetry dashboard.
+  * Interface: Glues all stages with multi-threaded queues and serves the live web UI.
+
+------------------------------------------------------------------------------
+6. IMPLEMENTATION PRIORITIES
+
+PRIORITY 1: Core Hackathon Stack (Must Pass Competition Gate)
+1. Initialize config/limits.yaml, config/models.yaml, config/flags.yaml, and requirements.txt.
+2. Build Module A (audio_io.py, vad.py, asr.py) and verify speech-to-text with real audio.
+3. Build Module B (router.py, knowledge.py, llm.py, tts.py, tts_cache.py) and verify text-to-speech.
+4. Build Module C (limits.py, metrics.py, governor.py) with native Windows Job Object memory enforcement.
+5. Build Module D (pipeline.py) connecting all stages via overlapped threads and queues with barge-in support.
+
+PRIORITY 2: Benchmark Suite & Judging Proof
+1. Implement bench/run_baseline.py comparing Baseline 1 (un-streamed) vs Baseline 2 (tuned stack).
+2. Implement bench/run_ablation.py logging cumulative & leave-one-out results to results/ablation.csv.
+3. Implement bench/run_degradation.py showing graceful stepping across 4, 3, 2, and 1 cores.
+4. Implement bench/offline_proof.py verifying zero outbound network connections.
+5. Implement bench/make_report.py compiling raw logs into WRITEUP.md.
+
+PRIORITY 3: Extra Features & Live Demo Polish
+1. Expand src/edge/router.py with offline Jarvis system commands (battery, volume, open notepad/calc, RAM stats).
+2. Implement pre-synthesized TTS audio caching for 0ms voice responses.
+3. Build the single-file Glassmorphism dashboard (dashboard/static/index.html) featuring:
+   - Declared limit banner & enforcement proof
+   - Live RAM & CPU gauges
+   - Real-time Latency Waterfall (VAD -> ASR -> LLM -> TTS)
+   - Live speech transcript & governor tier badge
+4. Create scripts/start_demo.ps1 for one-command startup in under 60 seconds.
+
+------------------------------------------------------------------------------
+7. DEFINITION OF DONE
+[ ] Live microphone loop works natively on Windows under enforced Job Object limits.
+[ ] Both baselines and final system benchmarked on real spoken test audio under the exact same limit.
+[ ] Ablation study and degradation sweep produce real data in results/.
+[ ] Offline proof passes with outbound networking disabled.
+[ ] Dashboard displays live latency waterfall and resource gauges via WebSocket.
+[ ] One-command launch runs in under 60 seconds cold start.
+[ ] Every number in WRITEUP.md traces directly to real run logs in results/.
+==============================================================================

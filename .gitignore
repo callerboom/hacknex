@@ -1,0 +1,52 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Caches & temporary files
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+scratch/
+**/scratch/
+results/
+**/results/
+*.log
+
+# Large ML models & weights (exceeds GitHub 100MB limit)
+models/
+**/models/
+*.gguf
+*.bin
+*.onnx
+*.pt
+*.pth
+*.safetensors
+
+# Audio caches (keep test assets in tests/assets/)
+tts_cache/
+**/tts_cache/
+**/cache/tts_cache/
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+env.bak/
+venv.bak/
+
+# Environment variables & secrets
+.env
+.env.*
+!.env.example
+
+# OS & Editor generated files
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
