@@ -1,0 +1,56 @@
+==============================================================================
+PRODUCT DESIGN ARCHITECTURE & UX STRATEGY DIRECTIVE
+ROLE: Product Design Architect, UX Strategist & Senior Frontend Engineer (Person 4)
+PROJECT: HackNEX 2026 - EdgeVoice / Jarvis-Edge
+==============================================================================
+
+1. UNDERSTAND BEFORE DESIGNING
+   - What problem the product solves: Verifiable, low-latency on-device voice AI running under strict OS-enforced hardware limits.
+   - Who the users are: Live Hackathon Judges (evaluating technical rigor, proof of enforcement, latency) & End Users (interacting via voice).
+   - What users need to accomplish: Speak unseen queries, observe real-time latency waterfall breakdown, verify hardware resource adherence, and witness instant voice replies.
+   - Most important user action: Live microphone speech input and immediate visual/auditory feedback.
+   - What makes this product different: Unlike cloud bots or unconstrained AI demos, this stack proves native OS-level CPU & RAM bounds, streaming sentence-level pipelining, and sub-300ms end-to-end response on a laptop CPU.
+
+2. AVOID GENERIC AI AESTHETICS
+   - NO generic purple gradient soup.
+   - NO excessive neon glows or fake cyber-matrix clutter.
+   - NO ungrounded Dribbble glassmorphism that destroys readability.
+   - YES: Precision Edge Telemetry & Industrial Instrumentation aesthetic (Deep obsidian slate, precision monospace metrics, deliberate telemetry accents, high-contrast readable data hierarchy).
+
+3. SEMANTIC COLOR SYSTEM
+   - Background Canvas: Slate Obsidian (`#0B0F17`)
+   - Surface Layer 1: Charcoal Panel (`#131B26`)
+   - Surface Layer 2 (Elevated): Deep Steel (`#1A2433`)
+   - Borders: Subtle Slate Boundary (`#243042`)
+   - Primary Accent: Precision Cyan / Cerulean (`#00D2FF` / `#0099FF`) — symbolizes edge computing precision.
+   - Hardware Limit Enforced (Success): Verified Emerald (`#10B981`)
+   - Governor Warning / Throttle: Calibrated Amber (`#F59E0B`)
+   - Critical Overload: Signal Coral (`#EF4444`)
+   - Primary Text: High-contrast Off-White (`#F8FAFC`)
+   - Muted Data / Labels: Balanced Steel Gray (`#94A3B8`)
+
+4. TYPOGRAPHY SYSTEM
+   - Interface Headings & Body: Inter / Plus Jakarta Sans (ultra-clean, highly legible)
+   - Metrics, Timers & Telemetry Values: JetBrains Mono / Space Mono (fixed-width tabular numbers to prevent jitter during live updates)
+
+5. HACKATHON JUDGE "3-SECOND RULE"
+   Within 3 seconds of glancing at the screen, any judge must clearly comprehend:
+   1. WHAT IS THIS? Offline On-Device Conversational Stack.
+   2. IS IT ENFORCED? Yes — Live JobObject RAM Cap (3072 MB) & 4-Core Affinity [VERIFIED].
+   3. HOW FAST IS IT? Live Waterfall Bar: 240ms End-of-Speech to Audio.
+   4. IS IT REAL? Real-time process tree PIDs, live mic waveform, streaming transcript.
+
+6. SIGNATURE MOMENT
+   The "Live Latency Breakdown Waterfall":
+   When speech finishes, a segmented waterfall bar animates in real-time, detailing:
+   `[ VAD: 38ms ] ➔ [ ASR: 84ms ] ➔ [ LLM TTFT: 72ms ] ➔ [ TTS Audio: 46ms ] = 240ms Total`
+   Hovering or inspecting highlights the exact kernel timestamps and microsecond measurements.
+
+7. COMPONENT SPECIFICATIONS
+   - Hardware Limit Banner with Live OS Kernel Verification Seal.
+   - Circular Gauge Cluster: Real-time RAM Working Set vs Hard Cap & CPU Load.
+   - Real-time Telemetry Feed & Audio Waveform Spectrum.
+   - Dual Stream Speech Dialogue (Live ASR partials -> final transcript -> spoken audio playback).
+   - Governor Tier Badge (Tier 1 Full | Tier 2 Compressed | Tier 3 Router-Only).
+   - Benchmark Matrix Drawer (Baseline 1 vs Baseline 2 vs Our Stack).
+==============================================================================

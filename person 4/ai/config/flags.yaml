@@ -1,0 +1,14 @@
+# HackNEX 2026: Feature Flags for Ablation Studies (HNX26EPS08)
+flags:
+  streaming_asr: true
+  sentence_chunked_tts: true
+  prompt_kv_cache_reuse: true
+  tts_cache: true
+  fast_router: true
+  vad_endpointing: true
+  speculative_prefill: false
+  thread_pinning: true
+  wakeword_enabled: false
+  wake_window_s: 5.0
+  image_enabled: true
+  vlm_enabled: false

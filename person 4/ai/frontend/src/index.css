@@ -1,0 +1,384 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;0,14..32,800;1,14..32,400&display=swap');
+@import "tailwindcss";
+
+/* ============================================================
+   EDGEVOICE AI — Premium Design System
+   Dark-first, Minimal, Linear-inspired
+   ============================================================ */
+@layer base {
+  :root {
+    /* ── Core Surfaces ── */
+    --bg:           #09090f;
+    --bg-surface:   #0d0d16;
+    --bg-elevated:  #111120;
+    --bg-card:      #111120;
+    --bg-overlay:   rgba(9,9,15,0.96);
+
+    /* ── Brand ── */
+    --violet:       #7c3aed;
+    --violet-dim:   #5b21b6;
+    --violet-light: #a78bfa;
+    --violet-glow:  rgba(124,58,237,0.14);
+    --cyan:         #06b6d4;
+    --cyan-glow:    rgba(6,182,212,0.10);
+
+    /* ── Borders ── */
+    --border:         rgba(255,255,255,0.055);
+    --border-medium:  rgba(255,255,255,0.09);
+    --border-brand:   rgba(124,58,237,0.22);
+    --border-focus:   rgba(124,58,237,0.50);
+
+    /* ── Text ── */
+    --text-1:    #f1f2f6;
+    --text-2:    #8892a4;
+    --text-3:    #4b5565;
+    --text-brand:#a78bfa;
+
+    /* ── Legacy compat ── */
+    --border-col:   rgba(124,58,237,0.2);
+    --text-primary: #f1f2f6;
+    --text-muted:   #8892a4;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background-color: var(--bg);
+    color: var(--text-1);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    transition: background-color 0.2s, color 0.2s;
+  }
+}
+
+/* ── LIGHT MODE ── */
+body.light {
+  --bg:           #f8f8fc;
+  --bg-surface:   #f0eff9;
+  --bg-elevated:  #eae8f6;
+  --bg-card:      #ffffff;
+  --bg-overlay:   rgba(248,248,252,0.97);
+  --border:       rgba(100,90,200,0.10);
+  --border-medium: rgba(100,90,200,0.16);
+  --border-brand: rgba(100,90,200,0.26);
+  --border-focus: rgba(100,90,200,0.50);
+  --text-1:       #16142e;
+  --text-2:       #56527a;
+  --text-3:       #9b96c0;
+  --text-brand:   #7c3aed;
+  --violet-glow:  rgba(100,90,200,0.08);
+  --border-col:   rgba(100,90,200,0.20);
+  --text-primary: #16142e;
+  --text-muted:   #56527a;
+  background-color: var(--bg);
+  color: var(--text-1);
+}
+
+/* ============================================================
+   GLASS PANELS
+   ============================================================ */
+.glass {
+  background: var(--bg-card);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border);
+}
+
+.glass-glow {
+  background: var(--bg-card);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border-brand);
+  box-shadow:
+    0 8px 40px -10px rgba(124,58,237,0.18),
+    0 0 0 1px rgba(255,255,255,0.03) inset;
+}
+
+/* ── GRADIENT TEXT ── */
+.grad-text {
+  background: linear-gradient(135deg, #a78bfa 0%, #38bdf8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── GRADIENT BORDER ── */
+.laser-border { position: relative; }
+.laser-border::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(124,58,237,0.7), rgba(6,182,212,0.4), rgba(124,58,237,0.7));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* ============================================================
+   KEYFRAMES
+   ============================================================ */
+@keyframes neuralPulse {
+  0%,100% { transform: scale(0.65); opacity: 0.1; }
+  50%      { transform: scale(1.25); opacity: 0.8; }
+}
+@keyframes neuralRing {
+  0%   { transform: scale(0.7); opacity: 0.7; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+@keyframes shimmerText {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+@keyframes audioBar {
+  0%,100% { height: 3px;  opacity: 0.4; }
+  50%      { height: 20px; opacity: 1;  }
+}
+@keyframes orbBreath {
+  0%,100% { box-shadow: 0 0 20px 4px rgba(124,58,237,0.15); }
+  50%      { box-shadow: 0 0 40px 12px rgba(124,58,237,0.30), 0 0 20px 6px rgba(6,182,212,0.12); }
+}
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(8px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+@keyframes slideIn {
+  from { opacity:0; transform:translateX(-10px); }
+  to   { opacity:1; transform:translateX(0); }
+}
+@keyframes ripple {
+  0%   { transform: scale(1);   opacity: 0.5; }
+  100% { transform: scale(2.4); opacity: 0;   }
+}
+@keyframes voiceFadeIn {
+  from { opacity: 0; transform: scale(0.98); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes orbListenPulse {
+  0%   { transform: scale(0.96); box-shadow: 0 0 50px 15px rgba(56,189,248,0.30), 0 0 100px 30px rgba(139,92,246,0.20); }
+  50%  { transform: scale(1.05); box-shadow: 0 0 80px 28px rgba(56,189,248,0.50), 0 0 140px 50px rgba(139,92,246,0.38); }
+  100% { transform: scale(0.96); box-shadow: 0 0 50px 15px rgba(56,189,248,0.30), 0 0 100px 30px rgba(139,92,246,0.20); }
+}
+@keyframes orbThinkSpin {
+  0%   { transform: rotate(0deg) scale(1.02); filter: hue-rotate(0deg); }
+  50%  { transform: rotate(180deg) scale(0.98); filter: hue-rotate(90deg); }
+  100% { transform: rotate(360deg) scale(1.02); filter: hue-rotate(0deg); }
+}
+@keyframes orbSpeakWave {
+  0%   { transform: scale(1.0);  box-shadow: 0 0 60px 18px rgba(168,85,247,0.4), 0 0 110px 35px rgba(34,211,238,0.3); }
+  25%  { transform: scale(1.10); box-shadow: 0 0 90px 32px rgba(168,85,247,0.6), 0 0 145px 50px rgba(34,211,238,0.5); }
+  50%  { transform: scale(1.04); box-shadow: 0 0 70px 22px rgba(168,85,247,0.45), 0 0 120px 38px rgba(34,211,238,0.35); }
+  75%  { transform: scale(1.14); box-shadow: 0 0 110px 42px rgba(168,85,247,0.65), 0 0 160px 62px rgba(34,211,238,0.55); }
+  100% { transform: scale(1.0);  box-shadow: 0 0 60px 18px rgba(168,85,247,0.4), 0 0 110px 35px rgba(34,211,238,0.3); }
+}
+@keyframes ping-slow {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50%       { transform: scale(1.5); opacity: 0; }
+}
+
+/* ── Animation classes ── */
+.neural-dot    { animation: neuralPulse 1.8s ease-in-out infinite; }
+.neural-ring   { animation: neuralRing  1.8s ease-out infinite; }
+.audio-bar     { animation: audioBar   1.1s ease-in-out infinite; transform-origin: bottom; }
+.orb-breath    { animation: orbBreath  3.2s ease-in-out infinite; }
+.msg-enter     { animation: fadeUp     0.22s ease forwards; }
+.sidebar-slide { animation: slideIn    0.18s ease forwards; }
+
+.shimmer-text {
+  background: linear-gradient(90deg, #a78bfa 0%, #38bdf8 35%, #a78bfa 60%, #38bdf8 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmerText 2.2s linear infinite;
+}
+
+/* ============================================================
+   SCROLLBAR — ultra-thin, minimal
+   ============================================================ */
+::-webkit-scrollbar { width: 3px; height: 3px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(124,58,237,0.22); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(124,58,237,0.48); }
+
+/* ============================================================
+   SIDEBAR ITEMS — refined hover/active
+   ============================================================ */
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-radius: 7px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-2);
+  cursor: pointer;
+  transition: background 0.12s ease, color 0.12s ease;
+  border: 1px solid transparent;
+  user-select: none;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+.sidebar-item:hover {
+  background: rgba(255,255,255,0.045);
+  color: var(--text-1);
+}
+.sidebar-item.active {
+  background: rgba(124,58,237,0.12);
+  color: #c4b5fd;
+  border-color: rgba(124,58,237,0.20);
+}
+
+/* ============================================================
+   INPUT BAR — elevated, refined focus
+   ============================================================ */
+.input-bar {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-medium);
+  border-radius: 14px;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.input-bar:focus-within {
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 3px rgba(124,58,237,0.07), 0 0 18px -4px rgba(124,58,237,0.18);
+}
+body.light .input-bar {
+  background: #ffffff;
+  border-color: var(--border-medium);
+  box-shadow: 0 1px 4px rgba(100,90,200,0.06);
+}
+body.light .input-bar:focus-within {
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 3px rgba(100,90,200,0.07), 0 1px 4px rgba(100,90,200,0.08);
+}
+
+/* ============================================================
+   SETTINGS MODAL
+   ============================================================ */
+.settings-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 200;
+  display: flex; align-items: center; justify-content: center;
+  animation: fadeUp 0.15s ease;
+}
+.settings-panel {
+  width: min(460px,94vw);
+  border-radius: 16px;
+  padding: 24px;
+  animation: fadeUp 0.18s ease;
+}
+
+/* ── IMAGE PREVIEW ── */
+.img-preview {
+  max-width: 220px; max-height: 160px;
+  border-radius: 9px; object-fit: cover;
+  border: 1px solid var(--border-brand);
+}
+
+/* ── RIPPLE BUTTON ── */
+.ripple-btn { position: relative; overflow: hidden; }
+.ripple-btn::after {
+  content: ""; position: absolute;
+  inset: 50% 50% 50% 50%;
+  background: rgba(124,58,237,0.22);
+  border-radius: 50%;
+  transition: all 0.4s ease;
+  opacity: 0;
+}
+.ripple-btn:active::after {
+  inset: -50%;
+  opacity: 1;
+  transition: 0s;
+}
+
+/* ── STATUS PILLS ── */
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 500;
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,0.03);
+  color: var(--text-2);
+  white-space: nowrap;
+}
+
+/* ── MESSAGE BUBBLES ── */
+.msg-user {
+  background: rgba(124,58,237,0.85);
+  color: #fff;
+  border-radius: 12px 12px 4px 12px;
+}
+.msg-bot-dark {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 4px 12px 12px 12px;
+  color: #dce2ed;
+}
+.msg-bot-light {
+  background: #ffffff;
+  border: 1px solid rgba(100,90,200,0.10);
+  border-radius: 4px 12px 12px 12px;
+  color: #1e1b4b;
+  box-shadow: 0 1px 3px rgba(100,90,200,0.06);
+}
+
+/* ── METRIC CARDS ── */
+.metric-card-dark {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+}
+.metric-card-light {
+  background: #ffffff;
+  border: 1px solid rgba(100,90,200,0.10);
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 1px 4px rgba(100,90,200,0.06);
+}
+
+/* ============================================================
+   EDGEVOICE REALTIME VOICE MODE
+   ============================================================ */
+.edgevoice-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  background: radial-gradient(circle at 50% 35%, rgba(18,10,42,0.98) 0%, rgba(7,5,14,0.99) 55%, #030208 100%);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  display: flex;
+  flex-direction: column;
+  animation: voiceFadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.orb-listening {
+  animation: orbListenPulse 2.2s ease-in-out infinite;
+  background: radial-gradient(circle at 35% 35%, #38bdf8 0%, #8b5cf6 45%, #4c1d95 85%, #1e1145 100%);
+}
+.orb-thinking {
+  animation: orbThinkSpin 2s linear infinite;
+  background: conic-gradient(from 0deg, #8b5cf6, #06b6d4, #ec4899, #8b5cf6);
+}
+.orb-speaking {
+  animation: orbSpeakWave 1.3s ease-in-out infinite;
+  background: radial-gradient(circle at 40% 40%, #c084fc 0%, #6366f1 40%, #06b6d4 75%, #1e1b4b 100%);
+}
+.orb-idle {
+  background: radial-gradient(circle at 40% 40%, #4b5563 0%, #1f2937 50%, #0f172a 100%);
+  box-shadow: 0 0 30px 8px rgba(75,85,99,0.12);
+}

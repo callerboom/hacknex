@@ -1,0 +1,14 @@
+# HackNEX 2026: Resource Limit Declarations (HNX26EPS08)
+declared_limit:
+  cores: 4                # Number of CPU cores pinned via affinity
+  ram_mb: 3072            # Maximum working set RAM limit in MB (Win32 Job Object)
+  enforcement_mode: "native" # "native" (Windows JobObject + psutil affinity) or "container"
+
+governor:
+  hysteresis_seconds: 3.5 # Minimum time before switching tiers
+  p50_latency_target_ms: 350
+  ram_warning_threshold_pct: 85.0
+  cpu_overload_threshold_pct: 90.0
+  image_max_mb: 5
+  image_max_side_px: 1024
+  image_min_headroom_mb: 400

@@ -1,0 +1,69 @@
+==============================================================================
+PROMPT FOR PERSON 4: LIMITS ENFORCEMENT, PIPELINE & LIVE DASHBOARD (MODULE C & D)
+ROLE: System Integration, Resource Governance & Live Delivery Lead
+PROJECT: HackNEX 2026 - EdgeVoice / Jarvis-Edge
+==============================================================================
+
+YOUR MISSION:
+You are the System Architect and Delivery Lead. You enforce the contest's strict hardware limits (RAM & CPU cores) natively on Windows and PROVE it to the judges. You weave Person 1, Person 2, and Person 3 together into a seamless multi-threaded pipeline with barge-in support, and broadcast live latency waterfalls and resource gauges to the FastAPI web dashboard.
+
+YOUR ASSIGNED FILES:
+1. `src/edge/limits.py` (Windows Win32 Job Object RAM cap + `psutil` CPU affinity)
+2. `src/edge/metrics.py` (Latency marker timestamps + whole-process-tree memory & CPU tracker)
+3. `src/edge/governor.py` (Dynamic degradation ladder with hysteresis)
+4. `src/edge/pipeline.py` (Multi-threaded queue-based orchestrator)
+5. `dashboard/server.py` & `dashboard/static/index.html` (FastAPI + WebSocket live telemetry UI)
+6. `bench/run_baseline.py`, `bench/run_ablation.py`, `bench/offline_proof.py` (Benchmark runners)
+7. `scripts/start_demo.ps1` (One-command launch script)
+
+DEPENDENCIES:
+`psutil`, `fastapi`, `uvicorn`, `websockets`, `pyyaml`. (All installed and verified).
+
+WHAT YOU NEED TO BUILD:
+
+1. HARDWARE LIMITS & PROOF (`src/edge/limits.py`):
+   - Contest requirement: Enforce resource limit (e.g., 4 cores, 3072 MB RAM) natively on Windows!
+   - Win32 Job Object: Use `ctypes` or `psutil` / Windows API to assign current process & child processes to a Job Object with `JOB_OBJECT_LIMIT_PROCESS_MEMORY` set to the declared RAM limit.
+   - CPU Affinity: Pin process tree affinity to the declared core count using `psutil.Process().cpu_affinity([0, 1, 2, 3])`.
+   - Expose `get_enforcement_proof() -> dict`: Returns active cores, memory cap in MB, current working set, and process tree PIDs for display on the dashboard banner.
+
+2. METRICS & TELEMETRY (`src/edge/metrics.py`):
+   - Implements `Metrics` protocol from `src.edge.contracts`:
+     `def mark(self, req_id: str, event: str, t: Optional[float] = None) -> None`
+   - Required events: `speech_end`, `vad_decision`, `asr_final`, `llm_first_token`, `llm_first_sentence`, `tts_first_audio`, `reply_done`.
+   - Compute stage breakdown:
+     * Endpointing delay = `vad_decision - speech_end`
+     * ASR latency = `asr_final - vad_decision`
+     * LLM first sentence = `llm_first_sentence - asr_final`
+     * TTS first audio = `tts_first_audio - llm_first_sentence`
+     * END-TO-END LATENCY = `tts_first_audio - speech_end`
+   - Whole-tree CPU & RAM sampler running in a background thread via `psutil`.
+
+3. RESOURCE GOVERNOR (`src/edge/governor.py`):
+   - Graceful degradation: If RAM or CPU approaches limit, switch tiers:
+     Tier 1 (High quality) -> Tier 2 (Quantized / small model) -> Tier 3 (Fast-router only).
+   - Hysteresis: Maintain timer/window so it does not rapidly flap between tiers.
+
+4. MULTI-THREADED PIPELINE (`src/edge/pipeline.py`):
+   - Overlapped execution with thread-safe queues:
+     Mic Thread -> VAD Thread -> ASR Thread -> Router/LLM Thread -> TTS Thread -> Audio Player.
+   - Barge-in: When VAD detects user speech while audio is playing, instantly clear playback queue and stop the speaker!
+   - Zero-crash guarantee: Empty transcripts, noise, or silence must never crash the loop.
+
+5. LIVE DASHBOARD (`dashboard/server.py` & `dashboard/static/index.html`):
+   - FastAPI server serving one single HTML page and a WebSocket endpoint `/ws/telemetry`.
+   - Dark modern UI displaying:
+     * Enforced Hardware Limit Banner (e.g., "Enforced Limit: 4 Cores | 3072 MB RAM [PROVEN]")
+     * Live CPU & RAM real-time gauges against limit
+     * Latency Waterfall breakdown bar per request
+     * Live Speech Transcript & Bot Response
+     * Active Governor Tier badge & TTS cache hit count.
+
+6. ONE-CLICK DEMO SCRIPT (`scripts/start_demo.ps1`):
+   - Automatically sets limits, launches pipeline and dashboard, and opens browser under 60 seconds!
+
+HOW TO TEST YOUR WORK STANDALONE:
+Run `dashboard/server.py` and open `http://localhost:8000`:
+- Confirm WebSocket connects and mock/live events update the gauges and latency waterfall.
+- Run `limits.py` test to verify process memory cap and core affinity in Task Manager.
+==============================================================================

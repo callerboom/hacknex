@@ -1,0 +1,54 @@
+==============================================================================
+PROMPT FOR PERSON 2: AUDIO CAPTURE, VAD & SPEECH RECOGNITION (MODULE A - LISTENING)
+ROLE: Edge Audio & Signal Processing Lead
+PROJECT: HackNEX 2026 - EdgeVoice / Jarvis-Edge
+==============================================================================
+
+YOUR MISSION:
+You are responsible for the physical audio input and speech recognition of our offline assistant. You capture sound from the laptop microphone, detect when the user starts and stops speaking using Silero VAD, detect barge-in (when the user interrupts the bot), and transcribe the spoken words into clean text via offline ASR.
+
+YOUR ASSIGNED FILES:
+1. `src/edge/audio_io.py` (Real mic capture & WAV playback via `sounddevice`)
+2. `src/edge/vad.py` (Silero VAD ONNX + circular pre-roll buffer + barge-in detector)
+3. `src/edge/asr.py` (`sherpa-onnx` streaming transducer + `faster-whisper` int8)
+4. `tests/test_asr_vad.py` (Automated tests with real WAVs measuring WER and latency)
+
+DEPENDENCIES:
+`sounddevice`, `numpy`, `onnxruntime`, `sherpa-onnx`, `faster-whisper`, `jiwer`. (All pre-installed and verified CPU-only).
+
+WHAT YOU NEED TO BUILD:
+
+1. AUDIO INPUT / OUTPUT (`src/edge/audio_io.py`):
+   - Standard sample rate: 16000 Hz, mono, float32 inside `[-1.0, 1.0]`.
+   - Provide an iterator or generator yielding real audio chunks (e.g., 512 samples per chunk, 32ms) from `sounddevice.InputStream`.
+   - Provide a clean playback function for audio arrays with an interrupt / stop event (so barge-in can halt playback immediately).
+
+2. SILERO VAD & BARGE-IN (`src/edge/vad.py`):
+   - Implements `VAD` protocol from `src.edge.contracts`:
+     `def segments(self, mic: Iterator[np.ndarray]) -> Iterator[SpeechSegment]`
+   - Runs Silero VAD v4/v5 ONNX model via `onnxruntime` (`CPUExecutionProvider`).
+   - Circular Pre-roll Buffer: Keep ~200-300ms of audio in a circular ring buffer before speech start so the first consonant/syllable of words is never cut off!
+   - Hangover Duration: Wait ~400-600ms of continuous silence before declaring speech end.
+   - Record high-precision timestamps (`perf_counter`):
+     * `t_speech_end`: Exact time user stopped speaking.
+     * `t_vad_decision`: Exact time VAD triggered the endpoint decision.
+   - Expose a `barge_in_event` callback: If bot is playing audio and user starts speaking, signal immediate audio cutoff!
+
+3. OFFLINE ASR (`src/edge/asr.py`):
+   - Implements `ASR` protocol from `src.edge.contracts`:
+     `def transcribe(self, audio: np.ndarray) -> Transcript`
+     `def transcribe_stream(self, chunks: Iterator[np.ndarray]) -> Iterator[Transcript]`
+   - Tier 1: `faster-whisper` int8 model (tiny.en or base.en) running via CTranslate2 CPU.
+   - Tier 2: `sherpa-onnx` streaming transducer for instantaneous chunk-by-chunk decoding.
+   - Output must be a `Transcript` dataclass:
+     `text: str`, `is_final: bool`, `lang: str`, `asr_ms: float`, `confidence: float`.
+
+INPUT & OUTPUT CONTRACT:
+- Input: Microphone audio chunks (`np.ndarray` float32 at 16kHz).
+- Output: `SpeechSegment(audio, t_speech_end, t_vad_decision)` and `Transcript(...)`.
+
+HOW TO TEST YOUR WORK STANDALONE:
+Create and run `tests/test_asr_vad.py`:
+- Feed a sample WAV file to your VAD and ASR.
+- Verify that it outputs the correct transcribed string, measures ASR runtime in milliseconds, and calculates Word Error Rate (WER) using `jiwer`.
+==============================================================================

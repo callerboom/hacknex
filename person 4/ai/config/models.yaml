@@ -1,0 +1,37 @@
+# HackNEX 2026: Model Tier Configurations (HNX26EPS08)
+asr:
+  tier1:
+    engine: "faster-whisper"
+    model_size: "tiny.en"
+    compute_type: "int8"
+    device: "cpu"
+    threads: 4
+  tier2:
+    engine: "sherpa-onnx"
+    transducer: true
+    threads: 4
+
+llm:
+  tier1:
+    model_path: "models/llm/qwen2.5-1.5b-instruct-q4_k_m.gguf"
+    n_ctx: 512
+    n_batch: 128
+    threads: 4
+    mmap: true
+  tier2:
+    model_path: "models/llm/qwen2.5-0.5b-instruct-q5_k_m.gguf"
+    n_ctx: 384
+    n_batch: 64
+    threads: 4
+    mmap: true
+
+tts:
+  tier1:
+    engine: "piper"
+    sample_rate: 16000
+    voice: "en_US-lessac-medium"
+    threads: 2
+  tier2:
+    engine: "sherpa-onnx"
+    sample_rate: 16000
+    threads: 2

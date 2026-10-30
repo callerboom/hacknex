@@ -1,0 +1,54 @@
+==============================================================================
+PROMPT FOR PERSON 1: OFFLINE KNOWLEDGE BASE & FAST-ROUTER (JARVIS CONTROLS)
+ROLE: Knowledge Engineer & Fast-Path Intent Specialist (Beginner-Friendly / Low-Stress)
+PROJECT: HackNEX 2026 - EdgeVoice / Jarvis-Edge
+==============================================================================
+
+YOUR MISSION:
+You are responsible for making our offline assistant lightning-fast (<5ms response time) by answering common questions and executing system actions directly, WITHOUT waiting for the heavy LLM! You also create our offline medical and general knowledge pack.
+
+YOUR ASSIGNED FILES:
+1. `data/knowledge/health_tips.md` (Offline general health, wellness & first-aid guidelines)
+2. `data/knowledge/first_aid.md` (Offline emergency guidance: burns, CPR, bleeding, choking)
+3. `src/edge/router.py` (Fast rule-based intent router + offline Jarvis commands)
+4. `bench/record_testset.py` (Helper: prepare the 40+ judge test questions list)
+
+DEPENDENCIES:
+Python standard library (`re`, `datetime`, `math`, `subprocess`), `psutil` (for system stats). No heavy ML libraries needed!
+
+WHAT YOU NEED TO BUILD:
+
+1. OFFLINE KNOWLEDGE DOCUMENTS:
+   Create `data/knowledge/health_tips.md` and `data/knowledge/first_aid.md`.
+   - Write clear, concise, accurate markdown files.
+   - Example sections: Burns treatment, CPR basics, snake bites, headache relief, hydration.
+   - Include a mandatory disclaimer: "Not professional medical advice."
+
+2. FAST ROUTER LOGIC (`src/edge/router.py`):
+   Create a class or function `route_intent(user_text: str) -> Optional[str]`:
+   - If user asks for TIME: return current system time (e.g., "The time is 2:45 PM").
+   - If user asks for DATE: return current date (e.g., "Today is Thursday, October 8, 2026").
+   - If user gives MATH: (e.g. "what is 25 times 4", "calculate 120 plus 35") -> calculate safely using `math` or parsed expressions and return answer.
+   - If user GREETS: ("hello", "hi", "who are you") -> return friendly short greeting.
+   - If input is SILENCE / NOISE: (empty string, repetitive noise tokens) -> return polite fallback ("I didn't catch that. Could you repeat?").
+   - JARVIS SYSTEM COMMANDS (Extra Wow Factor):
+     * "battery status" / "check battery" -> check `psutil.sensors_battery()` and return "% and charging state".
+     * "ram usage" / "memory usage" -> check `psutil.virtual_memory().percent` and report it.
+     * "open notepad" -> run `subprocess.Popen("notepad.exe")` and return "Opening Notepad".
+     * "open calculator" -> run `subprocess.Popen("calc.exe")` and return "Opening Calculator".
+   - If the query does NOT match any fast rule, return `None` (which signals the system to pass the query to Person 3's LLM).
+
+INPUT & OUTPUT CONTRACT:
+- Input: `user_text: str` (Clean transcript from Person 2).
+- Output: `Optional[str]` (Instant answer text if handled, or `None` if forwarded to LLM).
+
+HOW TO TEST YOUR WORK STANDALONE:
+Run this directly in terminal:
+```python
+python -c "from src.edge.router import route_intent; print(route_intent('what time is it')); print(route_intent('check battery')); print(route_intent('tell me a story'))"
+```
+Output should be:
+- The time string
+- The battery percentage
+- None (forwarded to LLM)
+==============================================================================
