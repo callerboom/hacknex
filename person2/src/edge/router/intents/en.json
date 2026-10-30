@@ -1,0 +1,23 @@
+{
+  "BATTERY": [
+    "battery status", "check battery", "battery level", "power status", "how much battery"
+  ],
+  "RAM": [
+    "ram status", "memory usage", "check ram", "system memory", "check memory"
+  ],
+  "NOTEPAD": [
+    "open notepad", "launch notepad", "start notepad", "open text editor"
+  ],
+  "CALCULATOR": [
+    "open calculator", "launch calculator", "open calc", "start calculator"
+  ],
+  "TIME": [
+    "what time is it", "current time", "tell me the time", "what is the time"
+  ],
+  "DATE": [
+    "what is today's date", "what is the date", "today's date", "what day is it"
+  ],
+  "GREETING": [
+    "hello", "hi", "hey", "who are you", "good morning", "good evening"
+  ]
+}

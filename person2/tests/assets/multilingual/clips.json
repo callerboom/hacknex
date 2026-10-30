@@ -1,0 +1,51 @@
+[
+  {
+    "filename": "en_jfk.wav",
+    "reference_text": "and so my fellow americans ask not what your country can do for you ask what you can do for your country",
+    "expected_lang": "en",
+    "expected_intent": null,
+    "tier": 1
+  },
+  {
+    "filename": "en_command.wav",
+    "reference_text": "turn on the light",
+    "expected_lang": "en",
+    "expected_intent": null,
+    "tier": 1
+  },
+  {
+    "filename": "ta_battery.wav",
+    "reference_text": "பேட்டரி எப்படி இருக்கு",
+    "expected_lang": "ta",
+    "expected_intent": "BATTERY",
+    "tier": 1
+  },
+  {
+    "filename": "ta_notepad.wav",
+    "reference_text": "நோட்பேட் ஓபன் பண்ணு",
+    "expected_lang": "ta",
+    "expected_intent": "NOTEPAD",
+    "tier": 1
+  },
+  {
+    "filename": "ta_time.wav",
+    "reference_text": "இப்போ நேரம் என்ன",
+    "expected_lang": "ta",
+    "expected_intent": "TIME",
+    "tier": 1
+  },
+  {
+    "filename": "tanglish_calc.wav",
+    "reference_text": "calculator open pannu",
+    "expected_lang": "en",
+    "expected_intent": "CALCULATOR",
+    "tier": 1
+  },
+  {
+    "filename": "tanglish_battery.wav",
+    "reference_text": "battery status check pannu",
+    "expected_lang": "en",
+    "expected_intent": "BATTERY",
+    "tier": 1
+  }
+]
